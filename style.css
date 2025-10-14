@@ -1,0 +1,133 @@
+/* Import a clean font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Basic CSS Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    /* Use flexbox to center the quiz container on the page */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Main container for the quiz app */
+.container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+}
+
+/* Shared styles for screen containers */
+.screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Adds space between elements inside the screen */
+}
+
+/* Utility class to hide elements */
+.hide {
+    display: none;
+}
+
+.title {
+    font-size: 2rem;
+    color: #2c3e50;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Grid layout for answer buttons */
+.btn-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* General button styling */
+.btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 15px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%; /* Make buttons fill their grid cell */
+}
+
+/* Hover effect for buttons */
+.btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* Specific styling for the 'Next' button */
+.next-btn {
+    background-color: #2ecc71;
+    margin-top: 20px;
+    width: auto; /* Allow next button to size to its content */
+    padding: 10px 30px;
+}
+
+.next-btn:hover {
+    background-color: #27ae60;
+}
+
+/* Styling for a correct answer button */
+.btn.correct {
+    background-color: #2ecc71;
+}
+
+/* Styling for an incorrect answer button */
+.btn.wrong {
+    background-color: #e74c3c;
+}
+
+/* Disable pointer events for buttons after an answer is selected */
+.btn.correct, .btn.wrong {
+    pointer-events: none;
+}
+
+#question-text {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 1.8rem;
+    }
+
+    /* Stack answer buttons vertically on small screens */
+    .btn-grid {
+        grid-template-columns: 1fr;
+    }
+}
