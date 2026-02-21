@@ -3,6 +3,10 @@ import { Pool } from 'pg'
 // Create a singleton pool instance
 let pool: Pool | null = null
 
+export function isDatabaseConfigured(): boolean {
+  return !!process.env.DATABASE_URL
+}
+
 export function getPool() {
   if (!pool) {
     const connectionString = process.env.DATABASE_URL

@@ -73,32 +73,37 @@ export async function createSession(userId: number): Promise<string> {
 }
 
 export async function getSession(): Promise<{ user: User } | null> {
-  const cookieStore = await cookies()
-  const sessionId = cookieStore.get(SESSION_COOKIE_NAME)?.value
-  
-  if (!sessionId) {
+  try {
+    const cookieStore = await cookies()
+    const sessionId = cookieStore.get(SESSION_COOKIE_NAME)?.value
+    
+    if (!sessionId) {
+      return null
+    }
+    
+    const sessions = await query<{ user_id: number }>(
+      'SELECT user_id FROM sessions WHERE id = $1 AND expires_at > NOW()',
+      [sessionId]
+    )
+    
+    if (sessions.length === 0) {
+      return null
+    }
+    
+    const users = await query<User>(
+      'SELECT id, email, created_at FROM users WHERE id = $1',
+      [sessions[0].user_id]
+    )
+    
+    if (users.length === 0) {
+      return null
+    }
+    
+    return { user: users[0] }
+  } catch (error) {
+    console.error('[v0] Session check failed:', error)
     return null
   }
-  
-  const sessions = await query<{ user_id: number }>(
-    'SELECT user_id FROM sessions WHERE id = $1 AND expires_at > NOW()',
-    [sessionId]
-  )
-  
-  if (sessions.length === 0) {
-    return null
-  }
-  
-  const users = await query<User>(
-    'SELECT id, email, created_at FROM users WHERE id = $1',
-    [sessions[0].user_id]
-  )
-  
-  if (users.length === 0) {
-    return null
-  }
-  
-  return { user: users[0] }
 }
 
 export async function deleteSession(): Promise<void> {
